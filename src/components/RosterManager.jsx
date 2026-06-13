@@ -64,7 +64,7 @@ export default function RosterManager({ roster, setRoster }) {
   return (
     <div className="roster-manager grid-2">
       <div className="glass-panel" style={{ padding: '2rem' }}>
-        <h2>학생 추가하기</h2>
+        <h2>🌟 학생 추가하기</h2>
         
         <form onSubmit={handleAddSingle} style={{ marginBottom: '2rem' }}>
           <h3>개별 추가</h3>
@@ -116,11 +116,7 @@ export default function RosterManager({ roster, setRoster }) {
         ) : (
           <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '10px' }}>
             {roster.map(student => (
-              <div key={student.id} style={{ 
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '12px', background: 'rgba(255,255,255,0.05)', 
-                borderRadius: '8px', marginBottom: '8px'
-              }}>
+              <div key={student.id} className="list-item">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontWeight: '600' }}>{student.name}</span>
                   <span className={`badge ${student.gender === 'M' ? 'badge-male' : 'badge-female'}`}>

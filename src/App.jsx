@@ -35,12 +35,14 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <>
+      <FloatingDecor />
+      <div className="app-container">
       <header className="header">
         <h1 onClick={handleTitleClick} style={{ cursor: 'default', userSelect: 'none' }}>
-          <span className="text-gradient">랜덤 발표자</span> 뽑기
+          <span className="text-gradient">✨ 랜덤 발표자</span> 뽑기 🎉
         </h1>
-        <p className="text-muted">두근두근! 오늘의 발표자는 누구일까요?</p>
+        <p className="text-muted">두근두근! 오늘의 발표자는 누구일까요? 💖</p>
       </header>
 
       <div className="nav-tabs">
@@ -82,8 +84,35 @@ function App() {
         drawnList={drawnList}
         setRiggedSelection={setRiggedSelection}
       />
-    </div>
+      </div>
+    </>
   );
+}
+
+// 🎈 배경에 둥둥 떠다니는 귀여운 장식들
+function FloatingDecor() {
+  const emojis = ['🎈', '⭐', '🍬', '🎀', '💫', '🌸', '🎉', '💜', '🍭', '✨', '🧁', '🌈'];
+  const pieces = Array.from({ length: 14 }, (_, i) => {
+    const emoji = emojis[i % emojis.length];
+    const left = (i * 7.3) % 100;
+    const duration = 12 + ((i * 1.7) % 10);
+    const delay = -(i * 1.9) % 14;
+    const size = 1.4 + ((i % 5) * 0.4);
+    return (
+      <span
+        key={i}
+        style={{
+          left: `${left}%`,
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
+          fontSize: `${size}rem`,
+        }}
+      >
+        {emoji}
+      </span>
+    );
+  });
+  return <div className="bg-decor">{pieces}</div>;
 }
 
 export default App;

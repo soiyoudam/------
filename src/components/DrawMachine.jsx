@@ -89,8 +89,9 @@ export default function DrawMachine({ roster, drawnList, setDrawnList, riggedSel
         
         {!currentDraw && !isDrawing ? (
           <>
-            <div className="marble-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.02)' }}>
-              <h2 style={{ color: 'rgba(255,255,255,0.3)' }}>준비 완료</h2>
+            <div className="marble-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <div style={{ fontSize: '3.5rem', animation: 'titleBob 2.5s ease-in-out infinite' }}>🎰</div>
+              <h2 style={{ color: 'rgba(255,255,255,0.55)' }}>준비 완료!</h2>
             </div>
             
             <div style={{ marginTop: '2rem', width: '100%', maxWidth: '300px' }}>
@@ -126,11 +127,12 @@ export default function DrawMachine({ roster, drawnList, setDrawnList, riggedSel
                 }}
               ></div>
             ))}
-            <h3 style={{ position: 'absolute', top: '20px', width: '100%', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>섞는 중...</h3>
+            <h3 style={{ position: 'absolute', top: '20px', width: '100%', textAlign: 'center', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>🌀 두근두근 섞는 중...</h3>
           </div>
         ) : (
           <div style={{ width: '100%', textAlign: 'center' }}>
-            <h2 className="text-gradient">당첨!</h2>
+            <Confetti />
+            <h2 className="text-gradient" style={{ fontSize: '2.5rem' }}>🎊 당첨! 🎊</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', margin: '2rem 0' }}>
               {currentDraw.map((student, idx) => (
                 <div key={idx} className={`huge-marble drawn-marble-showcase ${student.gender === 'M' ? 'male-marble' : 'female-marble'}`}>
@@ -163,13 +165,9 @@ export default function DrawMachine({ roster, drawnList, setDrawnList, riggedSel
         ) : (
           <div style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '10px' }}>
             {drawnList.map((student, idx) => (
-              <div key={idx} style={{ 
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '12px', background: 'rgba(255,255,255,0.05)', 
-                borderRadius: '8px', marginBottom: '8px'
-              }}>
+              <div key={idx} className="list-item">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontWeight: '600', color: 'var(--text-muted)', width: '20px' }}>{idx + 1}.</span>
+                  <span style={{ fontWeight: '600', color: 'var(--sunny)', width: '24px' }}>{idx + 1}.</span>
                   <span style={{ fontWeight: '600' }}>{student.name}</span>
                   <span className={`badge ${student.gender === 'M' ? 'badge-male' : 'badge-female'}`}>
                     {student.gender === 'M' ? '남' : '여'}
@@ -182,4 +180,33 @@ export default function DrawMachine({ roster, drawnList, setDrawnList, riggedSel
       </div>
     </div>
   );
+}
+
+// 🎉 당첨 순간 쏟아지는 컨페티
+function Confetti() {
+  const colors = ['#ffd166', '#ff7eb3', '#a855f7', '#5eead4', '#7dd3fc', '#fbcfe8', '#ffffff'];
+  const pieces = Array.from({ length: 60 }, (_, i) => {
+    const left = (i * 1.67) % 100;
+    const duration = 2.2 + ((i * 0.13) % 1.8);
+    const delay = (i * 0.05) % 1.2;
+    const color = colors[i % colors.length];
+    const isCircle = i % 3 === 0;
+    const size = 8 + (i % 4) * 3;
+    return (
+      <div
+        key={i}
+        className="confetti-piece"
+        style={{
+          left: `${left}%`,
+          width: `${size}px`,
+          height: `${size}px`,
+          background: color,
+          borderRadius: isCircle ? '50%' : '2px',
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
+        }}
+      />
+    );
+  });
+  return <div className="confetti-wrap">{pieces}</div>;
 }
